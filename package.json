@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --timeout 5000"
+    "test": "./node_modules/mocha/bin/mocha --timeout 5000",
+    "shippable": "npm test -- -R xunit-file"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -20,6 +21,7 @@
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "xunit-file": "0.0.9"
   }
 }

@@ -1,0 +1,31 @@
+language: node_js
+
+node_js:
+    - 5.1.1
+
+build_image: shippableimages/ubuntu1404_nodejs
+
+before_install:
+    - sudo apt-get install -y --force-yes build-essential
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.27.1/install.sh | bash
+    - source ~/.nvm/nvm.sh && nvm install $SHIPPABLE_NODE_VERSION
+    - node --version
+
+install:
+    - . installMongo.sh
+    - sudo mongod --smallfiles > /dev/null &
+
+before_script:
+    - npm install
+
+script:
+    - npm run shippable
+
+env:
+    global:
+        - XUNIT_FILE=shippable/testresults/result.xml
+        # MongoDB URL
+        - secure: lPx/1fe8RFUSPv1F1D3Fujd14afop7NPSAF6IirmO4YbfRc3MkiTHbkSuiQzniOccC5TC2kd1//hdBd9vnSOCVpS1+3Xs4ZVKj8VfnN2nEokMTnHGYuwB36tW1js/u734NKBl+R5se+140bAORjcrpxcSyQjlDDCCdgZbx00M2FvX4kDPXtZ17z9h2eViC70im5q4qoapzsu1+6U6BjAYnF+QAGoxBe1X3FOjlOgRo/G4/Z6E8nVgNMnx5jqX380ImSC8Hsy7D8MX6U0NelnhjBSc3NrWVYbCNNYVWQA4Zw8aXlZzf3gPF0zhdGt1eBUPgNmxJyXCF4rxsfQjI99zA==
+
+services:
+    - mongodb
